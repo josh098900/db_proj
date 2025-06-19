@@ -4,6 +4,16 @@ A comprehensive data warehouse project for a university, featuring an automated 
 
 ---
 
+
+## Screenshots
+![Vice-Chancellor Dashboard1](docs/dashboard-screenshot.png)
+
+
+![Vice-Chancellor Dashboard2](docs/charts.png)
+
+![Vice-Chancellor Dashboard3](docs/morechartslol.png)
+
+
 ## Features
 
 * **Star Schema Data Warehouse:** Optimized for fast analytical queries.
