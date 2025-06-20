@@ -11,34 +11,39 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity // Enables @PreAuthorize on controller methods
 public class SecurityConfig {
 
-    // The PasswordEncoder 
+    // Bean #1: The Password Encoder (Correct as is)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // SecurityFilterChain configuration.
+    // Bean #2: The Database User Details Manager (Restored as a separate bean)
+    // This is the bean that Spring looks for to disable the default security password.
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, @Qualifier("operationalDataSource") DataSource dataSource) throws Exception {
-        
-        //  define UserDetailsService here
-        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
-        userDetailsManager.setUsersByUsernameQuery("SELECT username, password, enabled FROM app_user WHERE username=?");
-        userDetailsManager.setAuthoritiesByUsernameQuery(
+    public UserDetailsManager userDetailsManager(@Qualifier("operationalDataSource") DataSource dataSource) {
+        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
+        users.setUsersByUsernameQuery("SELECT username, password, enabled FROM app_user WHERE username=?");
+        users.setAuthoritiesByUsernameQuery(
             "SELECT u.username, r.name FROM app_user u " +
             "JOIN user_roles ur ON u.user_id = ur.user_id " +
             "JOIN app_role r ON ur.role_id = r.role_id " +
             "WHERE u.username=?"
         );
+        return users;
+    }
 
-        //  build the security chain using the UserDetailsService 
+    // Bean #3: The Security Filter Chain (Correct as is)
+    // This configures the login page and URL permissions.
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/css/**", "/js/**", "/login").permitAll()
@@ -46,15 +51,13 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/", true) // Go to the main page on success
+                .defaultSuccessUrl("/", true)
                 .permitAll()
             )
             .logout(logout -> logout
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
-            )
-            // explicitly tell HttpSecurity to use manager
-            .userDetailsService(userDetailsManager);
+            );
 
         return http.build();
     }
