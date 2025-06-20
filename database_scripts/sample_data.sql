@@ -91,3 +91,62 @@ INSERT INTO user_roles (user_id, role_id) VALUES
 (1, 1), -- vchancellor gets ROLE_VC
 (2, 2), -- hod_cs gets ROLE_HOD
 (3, 3); -- admin gets ROLE_ADMIN
+
+
+
+
+
+
+-- Add 20 new students
+INSERT INTO students (first_name, last_name, date_of_birth, gender, nationality, email, enrollment_date) VALUES
+('Liam', 'Wilson', '2004-05-14', 'Male', 'Australia', 'liam.wilson@email.com', '2022-09-01'),
+('Olivia', 'Chen', '2003-08-22', 'Female', 'China', 'olivia.chen@email.com', '2022-09-01'),
+('Noah', 'Kim', '2005-02-11', 'Male', 'South Korea', 'noah.kim@email.com', '2023-09-01'),
+('Emma', 'Müller', '2002-12-03', 'Female', 'Germany', 'emma.muller@email.com', '2021-09-01'),
+('Lucas', 'Moreau', '2003-06-28', 'Male', 'France', 'lucas.moreau@email.com', '2022-09-01'),
+('Ava', 'Rossi', '2005-10-15', 'Female', 'Italy', 'ava.rossi@email.com', '2023-09-01'),
+('William', 'Tanaka', '2004-03-07', 'Male', 'Japan', 'william.tanaka@email.com', '2022-09-01'),
+('Sophia', 'Ivanova', '2003-01-25', 'Female', 'Russia', 'sophia.ivanova@email.com', '2021-09-01'),
+('James', 'Silva', '2005-07-02', 'Male', 'Brazil', 'james.silva@email.com', '2023-09-01'),
+('Isabella', 'O''Connor', '2004-09-19', 'Female', 'Ireland', 'isabella.oconnor@email.com', '2022-09-01'),
+('Benjamin', 'Nielsen', '2003-04-09', 'Male', 'Denmark', 'benjamin.nielsen@email.com', '2021-09-01'),
+('Mia', 'Johansson', '2005-11-21', 'Female', 'Sweden', 'mia.johansson@email.com', '2023-09-01'),
+('Elijah', 'Patel', '2004-01-18', 'Male', 'India', 'elijah.patel@email.com', '2022-09-01'),
+('Charlotte', 'Khan', '2003-06-05', 'Female', 'Pakistan', 'charlotte.khan@email.com', '2021-09-01'),
+('Henry', 'Nowak', '2005-08-11', 'Male', 'Poland', 'henry.nowak@email.com', '2023-09-01'),
+('Amelia', 'Popescu', '2004-10-29', 'Female', 'Romania', 'amelia.popescu@email.com', '2022-09-01'),
+('Alexander', 'Horvath', '2003-02-17', 'Male', 'Hungary', 'alexander.horvath@email.com', '2021-09-01'),
+('Evelyn', 'Novak', '2005-04-01', 'Female', 'Czech Republic', 'evelyn.novak@email.com', '2023-09-01'),
+('Jack', 'Smith', '2004-06-23', 'Male', 'USA', 'jack.smith@email.com', '2022-09-01'),
+('Lily', ' Tremblay', '2003-12-30', 'Female', 'Canada', 'lily.tremblay@email.com', '2021-09-01');
+
+-- Add enrollments for the new students (IDs 7 through 26)
+INSERT INTO enrollments (student_id, course_id, lecturer_id, academic_year, semester, final_grade, status) VALUES
+-- 2022 Enrollments
+(7, 1, 1, 2022, 1, 91.0, 'Passed'),
+(8, 5, 4, 2022, 1, 85.0, 'Passed'),
+(9, 1, 2, 2022, 2, 75.0, 'Passed'),
+(10, 4, 4, 2022, 2, 68.0, 'Passed'),
+(11, 6, 5, 2022, 1, 82.5, 'Passed'),
+(12, 2, 2, 2022, 2, 44.0, 'Failed'),
+(13, 7, 5, 2022, 1, 88.0, 'Passed'),
+(14, 5, 6, 2022, 2, 79.0, 'Passed'),
+(15, 1, 1, 2022, 1, 94.0, 'Passed'),
+(16, 2, 2, 2022, 2, 71.0, 'Passed'),
+-- 2023 Enrollments
+(17, 1, 1, 2023, 1, 89.0, 'Passed'),
+(18, 5, 4, 2023, 1, 92.0, 'Passed'),
+(19, 2, 2, 2023, 2, NULL, 'Enrolled'),
+(20, 6, 5, 2023, 2, NULL, 'Enrolled'),
+(21, 4, 4, 2023, 1, 78.0, 'Passed'),
+(22, 7, 5, 2023, 1, 95.5, 'Passed'),
+(23, 1, 2, 2023, 2, NULL, 'Enrolled'),
+(24, 3, 3, 2023, 1, 88.0, 'Passed'),
+(25, 5, 6, 2023, 1, 76.0, 'Passed'),
+(26, 6, 5, 2023, 2, NULL, 'Enrolled');
+
+-- Add some payments for the new students
+INSERT INTO payments (student_id, amount_paid, payment_date, description) VALUES
+(7, 1500.00, '2022-09-08 10:00:00+00', 'Semester 1 2022 Fees'),
+(8, 1400.00, '2022-09-09 11:00:00+00', 'Semester 1 2022 Fees'),
+(17, 1500.00, '2023-09-07 12:00:00+00', 'Semester 1 2023 Fees');
