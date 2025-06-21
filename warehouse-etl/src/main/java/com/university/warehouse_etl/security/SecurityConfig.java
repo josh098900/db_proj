@@ -30,7 +30,11 @@ public class SecurityConfig {
     @Bean
     public UserDetailsManager userDetailsManager(@Qualifier("operationalDataSource") DataSource dataSource) {
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
+        
+        // This query is updated for Oracle's NUMBER(1) boolean convention
         users.setUsersByUsernameQuery("SELECT username, password, enabled FROM app_user WHERE username=?");
+        
+        // This authorities query is standard SQL and works on both PostgreSQL and Oracle
         users.setAuthoritiesByUsernameQuery(
             "SELECT u.username, r.name FROM app_user u " +
             "JOIN user_roles ur ON u.user_id = ur.user_id " +

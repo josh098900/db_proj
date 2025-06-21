@@ -2,15 +2,15 @@ package com.university.warehouse_etl;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling; 
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@EnableScheduling 
+@EnableScheduling
 public class WarehouseEtlApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WarehouseEtlApplication.class, args);
     }
 
-    //  The EtlScheduler component now handles the execution of the ETL process.
+    // The on-startup runner is now gone.
 }

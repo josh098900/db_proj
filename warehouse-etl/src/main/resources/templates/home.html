@@ -47,19 +47,19 @@
 
     <script>
         // --- Helper functions for creating charts and tables ---
-        function createBarChart(canvasId, title, labels, data) {
+        const createBarChart = (canvasId, title, labels, data) => {
             const ctx = document.getElementById(canvasId).getContext('2d');
             new Chart(ctx, { type: 'bar', data: { labels, datasets: [{ label: title, data, backgroundColor: 'rgba(54, 162, 235, 0.5)', borderColor: 'rgba(54, 162, 235, 1)', borderWidth: 1 }] }, options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: title } } } });
-        }
-        function createLineChart(canvasId, title, labels, data) {
+        };
+        const createLineChart = (canvasId, title, labels, data) => {
             const ctx = document.getElementById(canvasId).getContext('2d');
             new Chart(ctx, { type: 'line', data: { labels, datasets: [{ label: title, data, fill: false, borderColor: 'rgb(75, 192, 192)', tension: 0.1 }] }, options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: title } } } });
-        }
-        function createPieChart(canvasId, title, labels, data) {
+        };
+        const createPieChart = (canvasId, title, labels, data) => {
             const ctx = document.getElementById(canvasId).getContext('2d');
             new Chart(ctx, { type: 'pie', data: { labels, datasets: [{ label: 'Count', data, hoverOffset: 4 }] }, options: { responsive: true, plugins: { title: { display: true, text: title } } } });
-        }
-        function createYoYChart(canvasId, title, labels, currentYearData, previousYearData) {
+        };
+        const createYoYChart = (canvasId, title, labels, currentYearData, previousYearData) => {
             const ctx = document.getElementById(canvasId).getContext('2d');
             new Chart(ctx, {
                 type: 'bar',
@@ -69,23 +69,22 @@
                 ] },
                 options: { responsive: true, plugins: { legend: { position: 'top' }, title: { display: true, text: title } } }
             });
-        }
-        function populateTable(tableId, data) {
+        };
+        const populateTable = (tableId, data) => {
             const tableBody = document.querySelector(`#${tableId} tbody`);
             if (!tableBody) return;
             tableBody.innerHTML = '';
             data.forEach(item => {
                 let row = tableBody.insertRow();
-                // Assumes DTO properties are 'studentName' and 'grade'
                 row.insertCell(0).innerHTML = item.studentName;
                 row.insertCell(1).innerHTML = item.grade;
             });
-        }
+        };
 
-        // event listener runs code when the page loaded
+        // This event listener runs our code when the page has loaded
         document.addEventListener('DOMContentLoaded', function() {
             
-            // VC/Admin Reports
+            // Simpler, more direct fetch calls are easier to debug and read.
             if (document.getElementById('departmentChart')) {
                 fetch('/api/reports/department-performance').then(res => res.json()).then(data => createBarChart('departmentChart', 'Students Passed', data.map(d => d.departmentName), data.map(d => d.studentsPassed))).catch(console.error);
             }
@@ -104,7 +103,7 @@
 
             // HOD Reports
             if (document.getElementById('hodCourseChart')) {
-                fetch('/api/reports/hod/course-performance').then(res => res.json()).then(data => createBarChart('hodCourseChart', 'Passed Count', data.map(d => d.course_title), data.map(d => d.passed_count))).catch(console.error);
+                fetch('/api/reports/hod/course-performance').then(res => res.json()).then(data => createBarChart('hodCourseChart', 'Passed Count', data.map(d => d.courseTitle), data.map(d => d.passedCount))).catch(console.error);
             }
             if (document.getElementById('hodLecturerWorkloadChart')) {
                 fetch('/api/reports/hod/lecturer-workload').then(res => res.json()).then(data => createBarChart('hodLecturerWorkloadChart', 'Students Taught', data.map(d => d.lecturerName), data.map(d => d.studentCount))).catch(console.error);
